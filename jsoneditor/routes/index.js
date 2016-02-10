@@ -10,12 +10,35 @@ router.get('/', function(req, res, next) {
 });
  
  
- /* GET home page. */
-router.get('/dbnames', function(req, res, next) {
+/* GET CollectionNamesList page. */
+router.get('/home', function(req, res, next) {
  _crud.getCollectionNames(function(err,names){
     res.send(JSON.stringify(names));   
- }) 
-  
+ })
 });
+
+/* GET CollectionContent page. */
+router.get('/page1', function(req, res, next) {
+ _crud.getCollectionNames(function(err,names){
+    res.send({"Page1":"page1"});   
+ })
+});
+
+
+/* GET home page. */
+router.get('/page2', function(req, res, next) {
+ _crud.getCollectionNames(function(err,names){
+    res.send({"Page2":"page2"});   
+ })
+});
+
+
+/* GET home page. */
+router.get('/page3', function(req, res, next) {
+ _crud.getCollectionNames(function(err,names){
+    res.send({"Page3":"page3"});   
+ })
+});
+
 
 module.exports = router;
