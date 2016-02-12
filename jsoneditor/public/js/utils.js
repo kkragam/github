@@ -22,8 +22,39 @@ function loadMenuItem(){
 var menuItemDataResult=function(data){ 
     logInfo("Success"+data); 
 }
+
+
+var list="";
+function recurse(key,val){
+    list+="<li>";
+    if(val instanceof Array){
+        list += key + "</li><ul class='arrayclass'";
+            $.each(val,recurse);
+        list+="</ul>"; 
+    }else if(val instanceof Object){
+        list += key + "</li><ul class='objclass'>";
+            $.each(val,recurse);
+        list+="</ul>"; 
+    }
+    else{
+       // list+="<a href'"+key +"'>"+val+"</a> </li>";
+       list+= "<input type='text' value='"+key+"' class='form-control input-sm keystyle' /> <-> <input type='text' value='"+val+"' class='form-control input-sm valstyle' />" ;
+    }
+    
+}
+
+function recursiveJSON(inputData){
+    list="<ul>";
+        $.each(inputData,recurse);
+    list+="</ul>" ; 
+    return list;
+}
+
+
+
 //Public access
 return{
-    loadMenuItem:loadMenuItem
+    loadMenuItem:loadMenuItem,
+    recursiveJSON:recursiveJSON
 }
 }());

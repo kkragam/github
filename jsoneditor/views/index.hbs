@@ -1,5 +1,10 @@
    
 <div class="container">
-  {{data}}
+      {{title}}
 </div>
+
+<script>
+    var output= utils.recursiveJSON(testdata);
+    $(".container").html(output);
+ </script>
  

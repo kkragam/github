@@ -18,10 +18,10 @@ router.post('/home', function(req, res, next) {
 });
 
 /* GET CollectionContent page. */
-router.post('/page1', function(req, res, next) {
- _crud.getCollectionNames(function(err,names){
-    res.send({"Page1":"page1"});   
- })
+router.get('/page1', function(req, res, next) {
+    res.render('index', { title: 'Express' });
+   // res.send({"Page1":"page1"});   
+  
 });
 
 
