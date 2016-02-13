@@ -6,16 +6,12 @@ body {
 a {
   color: #00B7FF;
 }
-.arrayclass{
-    color:red;
-}
-.objectclass{
-    color:green;
-}
-.valstyle{
-    color:red;   
-}
 
-.keystyle{
-    color:green;
+.arraybk{
+    background-color: lightcyan;
+    padding:30px;
+}
+.objectbk{
+    background-color: lightgray;
+    padding:30px;
 }

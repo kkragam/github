@@ -25,30 +25,123 @@ var menuItemDataResult=function(data){
 
 
 var list="";
-function recurse(key,val){
-    list+="<li>";
+var curTypes={
+    string:"string",
+    array:"array",
+    object:"object"
+}
+var curval="";
+
+function recurse(key,val){ 
+    list+="<li>"; 
     if(val instanceof Array){
-        list += key + "</li><ul class='arrayclass'";
+        curval=curTypes.array;
+        list += textBoxForArrayKey(key) + "</li><ul class='arrayclass'>[";
             $.each(val,recurse);
-        list+="</ul>"; 
+        list+="<br>]</ul>"; 
     }else if(val instanceof Object){
-        list += key + "</li><ul class='objclass'>";
+        curval=curTypes.object;
+        list += textBoxForObjKey(key) + "</li><ul class='objclass'> {";
             $.each(val,recurse);
-        list+="</ul>"; 
+        list+="<br>}</ul>"; 
     }
-    else{
-       // list+="<a href'"+key +"'>"+val+"</a> </li>";
-       list+= "<input type='text' value='"+key+"' class='form-control input-sm keystyle' /> <-> <input type='text' value='"+val+"' class='form-control input-sm valstyle' />" ;
+    else{  
+        if(curval == curTypes.array){
+            list+=   textBoxForVal(val) ;
+             
+        }
+        else if(curval == curTypes.array){
+            list+= textBoxForKey(key)+ " : "+ textBoxForVal(val) ;
+             
+        }
+        else{
+            list+= textBoxForKey(key)+ " : "+ textBoxForVal(val) ;
+            curval=curTypes.string;    
+        }
+        
+       
     }
     
 }
 
+function textBoxForArrayKey(input){ 
+    return  "<input type='text' value='"+input+"' class='input-sm arraykey'/>";
+}
+function textBoxForObjKey(input){
+    return  "<input type='text' value='"+input+"' class='input-sm  keystyle'/>";
+}
+function textBoxForVal(input){
+    return  "<input type='text' value='"+input+"' class='input-sm valstyle' />";
+}
+
+function textBoxForKey(input){
+    return "<input type='text' value='"+input+"' class='input-sm keystyle' />";
+}
+
 function recursiveJSON(inputData){
-    list="<ul>";
+    /*list="<ul>";
         $.each(inputData,recurse);
     list+="</ul>" ; 
     return list;
+    */
+    if(inputData instanceof Array){
+        return "[<ul class='arraybk'>"+iterateAttributesAndFormHTMLLabels(inputData)+"</ul>]";
+    }
+    else{
+        return "{<ul class='objectbk'>"+iterateAttributesAndFormHTMLLabels(inputData)+"</ul>}";
+    }
 }
+
+
+
+
+
+ 
+
+function iterateAttributesAndFormHTMLLabels(obj){
+    var s = '';
+    for(var key in obj){ 
+        
+        s+="<li>"; 
+        if (obj[key] instanceof Array){
+          if (obj instanceof Array){
+                s+=key+'</li>[<ul class="arraybk">';
+            }else{
+                s+=textBoxForArrayKey(key)+'</li>[<ul class="arraybk">';
+            }
+            //s+='[<ul class="arraybk">';
+            s+=iterateAttributesAndFormHTMLLabels(obj[key]);
+            s+="</ul>]"
+        }
+        else if (obj[key] instanceof Object){
+             
+              if(obj instanceof Array){
+                s+= key+'</li>{<ul class="objectbk">';
+               }
+              else {
+                s+= textBoxForObjKey(key)+'</li>{<ul class="objectbk">'; 
+              } 
+                s+=iterateAttributesAndFormHTMLLabels(obj[key]);
+                s+="</ul>}"
+        }else{
+            
+            if(obj instanceof Array){
+                s+= textBoxForVal(obj[key])+'</li>';
+            }
+            else if(obj instanceof Object){
+                s+=textBoxForKey(key)+':'+textBoxForVal(obj[key])+'</li>';
+            }else{
+                s+=textBoxForKey(key)+':'+textBoxForVal(obj[key])+'</li>';
+            }
+            
+        }//end if
+        
+    }//end for
+     
+    return s;
+    
+}//end function
+
 
 
 
