@@ -1,5 +1,4 @@
 
-var utils=(function(){
 function getJSON(url,data,callback){ 
     logInfo("Request fired with URL = "+url +" | Data ="+data);
     var request = $.ajax({
@@ -24,45 +23,7 @@ var menuItemDataResult=function(data){
 }
 
 
-var list="";
-var curTypes={
-    string:"string",
-    array:"array",
-    object:"object"
-}
-var curval="";
 
-function recurse(key,val){ 
-    list+="<li>"; 
-    if(val instanceof Array){
-        curval=curTypes.array;
-        list += textBoxForArrayKey(key) + "</li><ul class='arrayclass'>[";
-            $.each(val,recurse);
-        list+="<br>]</ul>"; 
-    }else if(val instanceof Object){
-        curval=curTypes.object;
-        list += textBoxForObjKey(key) + "</li><ul class='objclass'> {";
-            $.each(val,recurse);
-        list+="<br>}</ul>"; 
-    }
-    else{  
-        if(curval == curTypes.array){
-            list+=   textBoxForVal(val) ;
-             
-        }
-        else if(curval == curTypes.array){
-            list+= textBoxForKey(key)+ " : "+ textBoxForVal(val) ;
-             
-        }
-        else{
-            list+= textBoxForKey(key)+ " : "+ textBoxForVal(val) ;
-            curval=curTypes.string;    
-        }
-        
-       
-    }
-    
-}
 
 function textBoxForArrayKey(input){ 
     return  "<input type='text' value='"+input+"' class='input-sm arraykey'/>";
@@ -79,26 +40,17 @@ function textBoxForKey(input){
 }
 
 function recursiveJSON(inputData){
-    /*list="<ul>";
-        $.each(inputData,recurse);
-    list+="</ul>" ; 
-    return list;
-    */
+  
     if(inputData instanceof Array){
-        return "[<ul class='arraybk'>"+iterateAttributesAndFormHTMLLabels(inputData)+"</ul>]";
+        return "[<ul class='arraybk'>"+iterateJSONToHTML(inputData)+"</ul>]";
     }
     else{
-        return "{<ul class='objectbk'>"+iterateAttributesAndFormHTMLLabels(inputData)+"</ul>}";
+        return "{<ul class='objectbk'>"+iterateJSONToHTML(inputData)+"</ul>}";
     }
 }
 
 
-
-
-
- 
-
-function iterateAttributesAndFormHTMLLabels(obj){
+function iterateJSONToHTML(obj){
     var s = '';
     for(var key in obj){ 
         
@@ -110,7 +62,7 @@ function iterateAttributesAndFormHTMLLabels(obj){
                 s+=textBoxForArrayKey(key)+'</li>[<ul class="arraybk">';
             }
             //s+='[<ul class="arraybk">';
-            s+=iterateAttributesAndFormHTMLLabels(obj[key]);
+            s+=iterateJSONToHTML(obj[key]);
             s+="</ul>]"
         }
         else if (obj[key] instanceof Object){
@@ -121,7 +73,7 @@ function iterateAttributesAndFormHTMLLabels(obj){
               else {
                 s+= textBoxForObjKey(key)+'</li>{<ul class="objectbk">'; 
               } 
-                s+=iterateAttributesAndFormHTMLLabels(obj[key]);
+                s+=iterateJSONToHTML(obj[key]);
                 s+="</ul>}"
         }else{
             
@@ -129,9 +81,9 @@ function iterateAttributesAndFormHTMLLabels(obj){
                 s+= textBoxForVal(obj[key])+'</li>';
             }
             else if(obj instanceof Object){
-                s+=textBoxForKey(key)+':'+textBoxForVal(obj[key])+'</li>';
+                s+=textBoxForKey(key)+' : '+textBoxForVal(obj[key])+'</li>';
             }else{
-                s+=textBoxForKey(key)+':'+textBoxForVal(obj[key])+'</li>';
+                s+=textBoxForKey(key)+' : '+textBoxForVal(obj[key])+'</li>';
             }
             
         }//end if
@@ -141,37 +93,6 @@ function iterateAttributesAndFormHTMLLabels(obj){
     return s;
     
 }//end function
+ 
 
-
-
-
-
-function dataBind(domElement, obj) {
-
-    var bind = domElement.getAttribute("bind").split(":");
-    var domAttr = bind[0].trim();
-    var itemAttr = bind[1].trim();
-
-    Object.observe(obj, function (change) {
-        domElement[domAttr] = obj[itemAttr];
-    });
-    new MutationObserver(updateObj).observe(domElement, {
-        attributes: true,
-        childList: true,
-        characterData: true
-    });
-    domElement.addEventListener("keyup", updateObj);
-    domElement.addEventListener("click",updateObj);
-    function updateObj(){
-        obj[itemAttr] = domElement[domAttr];   
-    }
-    domElement[domAttr] = obj[itemAttr];
-}
-
-
-//Public access
-return{
-    loadMenuItem:loadMenuItem,
-    recursiveJSON:recursiveJSON
-}
-}());
+ 
