@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>AngularJS Recursion Sample</title>
+    <link data-require="bootstrap-css@3.x" data-semver="3.1.1" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+     <link rel="stylesheet" href="stylesheets/style.css" />
+    <script data-require="angular.js@1.2.x" src="https://code.angularjs.org/1.3.0-beta.5/angular.js" data-semver="1.3.0-beta.5"></script>
+     <script src="js/myapp.js"></script>
+  </head>
+
+  <body ng-controller="MainCtrl"> 
+    <div>
+        <h2>Array Iteration (2-WAY Data Binding)</h2>
+        <script type="text/ng-template" id="field_renderer.html">
+          <input type="text" ng-model="field.label" value="{{field.label}}"></input>
+            <ul ng-if="field.Fields">
+              <li ng-repeat="field in field.Fields" ng-model="field" ng-include="'field_renderer.html'"> </li>
+            </ul>
+        </script> 
+        <ul> <li ng-repeat="field in formData" ng-model="formData" ng-include="'field_renderer.html'"></li> </ul>
+ </div>
+     
+    <input type="button" value="test" ng-click="test(formData)" />
+   </body>
+
+</html>

@@ -1,12 +1,17 @@
 var express = require('express');
-var crud=require('./../models/crud')
+var path = require('path');
+var crud=require('./../models/crud');
 //local vars
 var router = express.Router();
 var _crud=crud;
  
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  //res.render('index', { title: 'Express' });
+  //res.sendFile('index.html');
+  res.sendFile(path.join(__dirname, '../public/templates/', 'ang.html'));
+  //res.sendFile('index1.html', { root: path.join(__dirname, '../public') });
+   
 });
  
  
