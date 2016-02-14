@@ -34,24 +34,31 @@
         </nav>
     </header>
 
-
+    <div class="row">
+        <input type="button" value="Generate New JSON" onclick="generateNewJSONObj()"/>   
+    </div>
 
     <div class="row">
         <div id="col1" class="col-xs-6">
-        </div>
-        <div id="col2" class="col-xs-6">
+        </div> 
+        <div id="col3" class="col-xs-6 ">
             <pre id='code'>
-      </pre>
+            </pre>
         </div>
     </div>
-    <div>
-
-    </div>
+    <div style="display:none;" id="tempHtml"></div>  
+    
     <script>
-        var svar=testdata;
-    var output= recursiveJSON(svar);
-    $("#col1").html(output);
-    $("#code").html(JSON.stringify(svar,null,'\t'));
+     
+    var output= recursiveJSON(testdata);
+    $("#col1").html(output).text();
+    // $("#code").html(JSON.stringify(svar,null,'\t'));
+     $("#tempHtml").html(jstemp);
+    function generateNewJSONObj(){ 
+        var obj = JSON.parse($('#tempHtml').text());
+        $("#code").html(JSON.stringify(obj,null,'\t')); 
+    }
+    
     </script>
 
 

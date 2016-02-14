@@ -9,7 +9,7 @@ var _crud=crud;
 router.get('/', function(req, res, next) {
   //res.render('index', { title: 'Express' });
   //res.sendFile('index.html');
-  res.sendFile(path.join(__dirname, '../public/templates/', 'ang.html'));
+  res.sendFile(path.join(__dirname, '../public/templates/', 'index.html'));
   //res.sendFile('index1.html', { root: path.join(__dirname, '../public') });
    
 });
